@@ -703,7 +703,10 @@ async function saveToFirebase(){
     await set(dbRef, payload);
     setSt("ok");
   } catch(e){
-    setSt("er", "Erro ao salvar");
+    const msg = e?.message || e?.code || JSON.stringify(e) || "Erro desconhecido";
+    setSt("er", "Erro: " + msg);
+    document.getElementById("status-bar").textContent = "ERRO AO SALVAR: " + msg;
+    document.getElementById("status-bar").style.display = "block";
     console.error(e);
   }
   saving = false;
